@@ -1,0 +1,2 @@
+define
+  shim: <%= config.shim %>

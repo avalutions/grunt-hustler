@@ -1,4 +1,5 @@
-require
-	shim: <%= config.shim %>
-	<%= config.loads %>, (require) ->
-		<%= config.req %>
+define (require, module, exports) ->
+	ng = require('angular');
+	app = require('./app');
+
+	ng.bootstrap(document, ['app']);

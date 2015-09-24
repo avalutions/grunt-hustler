@@ -4,6 +4,10 @@ module.exports = (grunt) ->
 
 		return grunt.log.warn('src is required') if !src
 
+		base = @data.baseUrl
+
+		return grunt.log.warn('baseUrl is required') if !base
+
 		cwd = @data.cwd ? './'
 		files = grunt.file.expand {cwd}, src
 		path = require 'path'
@@ -212,6 +216,7 @@ module.exports = (grunt) ->
 			console.log 'trimmedRequire', trimmedRequire
 
 			config =
+				baseUrl: base
 				shim: JSON.stringify(shim)
 				loads: JSON.stringify(['require'].concat(loads))
 				req: if req then "require ['#{trimmedRequire}']" else ''

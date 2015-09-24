@@ -45,6 +45,7 @@ module.exports = (grunt) ->
 				delete files[position]
 
 		mainFileName = 'main.coffee'
+		configFileName = 'require-config.coffee'
 
 		removeFromFiles mainFileName
 
@@ -128,6 +129,7 @@ module.exports = (grunt) ->
 
 			config =
 				app: app
+				loads: JSON.stringify(['angular'].concat(loads))
 				modules: JSON.stringify(moduleNames)
 
 			compiled = grunt.template.process template, data: config: config
@@ -142,7 +144,6 @@ module.exports = (grunt) ->
 
 				createApp appName, modules
 
-		createApps apps
 
 		req = @data.require
 
@@ -159,7 +160,6 @@ module.exports = (grunt) ->
 			else
 				req = 'bootstrap.coffee'
 
-		createRequire()
 
 		loads = []
 
@@ -218,7 +218,6 @@ module.exports = (grunt) ->
 			config =
 				baseUrl: base
 				shim: JSON.stringify(shim)
-				loads: JSON.stringify(['require'].concat(loads))
 				req: if req then "require ['#{trimmedRequire}']" else ''
 
 			compiled = grunt.template.process template, data: config: config
@@ -226,4 +225,19 @@ module.exports = (grunt) ->
 
 			grunt.file.write dest, compiled
 
+		processConfig = ->
+			template = getTemplate configFileName
+
+			config =
+				baseUrl: base
+				shim: JSON.stringify(shim)
+
+			compiled = grunt.template.process template, data: config: config
+			dest = path.resolve cwd, configFileName
+
+			grunt.file.write dest, compiled
+
 		processShim()
+#		createRequire()
+		createApps apps
+		processConfig()

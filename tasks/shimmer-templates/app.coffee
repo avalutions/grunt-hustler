@@ -1,2 +1,2 @@
-define <%= config.loads %>, () ->
-  angular.module '<%= config.app %>', <%= config.modules %>
+define <%= config.loads %>, (ng) ->
+  ng.module '<%= config.app %>', <%= config.modules %>
